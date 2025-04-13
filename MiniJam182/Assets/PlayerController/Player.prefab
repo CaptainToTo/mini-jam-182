@@ -571,6 +571,9 @@ MonoBehaviour:
   wallForce: 200
   minSpinout: -80
   maxSpinout: 80
+  capturedHealth: 20
+  capturedMult: 3
+  isCaptured: 0
 --- !u!54 &3793206566998786780
 Rigidbody:
   m_ObjectHideFlags: 0

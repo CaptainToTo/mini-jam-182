@@ -28,6 +28,16 @@ public class Butterfly : MonoBehaviour
             if (leftFlap != null)
                 StopCoroutine(leftFlap);
             leftFlap = StartCoroutine(WingFlap(leftWing));
+
+            if (isCaptured)
+            {
+                captured--;
+                if (captured <= 0)
+                {
+                    isCaptured = false;
+                    captor.Escaped();
+                }
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -38,6 +48,16 @@ public class Butterfly : MonoBehaviour
             if (rightFlap != null)
                 StopCoroutine(rightFlap);
             rightFlap = StartCoroutine(WingFlap(rightWing));
+
+            if (isCaptured)
+            {
+                captured--;
+                if (captured <= 0)
+                {
+                    isCaptured = false;
+                    captor.Escaped();
+                }
+            }
         }
     }
 
@@ -72,5 +92,23 @@ public class Butterfly : MonoBehaviour
     {
         Rb.AddRelativeTorque(new Vector3(Random.Range(minSpinout, maxSpinout), 0, 0), ForceMode.Impulse);
         Rb.AddForce(normal * wallForce, ForceMode.Impulse);
+    }
+
+    public int capturedHealth;
+    public float capturedMult;
+
+    int timesCaptured = 0;
+
+    int captured;
+
+    public bool isCaptured;
+    Frog captor;
+
+    public void Capture(Frog f)
+    {
+        captured = capturedHealth + (int)(timesCaptured * capturedMult);
+        timesCaptured++;
+        isCaptured = true;
+        captor = f;
     }
 }

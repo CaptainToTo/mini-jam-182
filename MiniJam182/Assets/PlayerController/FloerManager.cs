@@ -32,10 +32,12 @@ public class FlowerManager : MonoBehaviour
 
     public bool running = true;
 
+    public Frog[] frogs;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        vol.profile.TryGet(out cone);
+        vol?.profile.TryGet(out cone);
         total.text = "/" + flowers.Length.ToString();
 
         foreach (var flower in flowers)
@@ -48,6 +50,9 @@ public class FlowerManager : MonoBehaviour
         RenderSettings.skybox.SetFloat("_Blend", 1f);
 
         black.gameObject.SetActive(false);
+
+        foreach (var f in frogs)
+            f.gameObject.SetActive(false);
     }
 
     public void OnPollinated()
@@ -117,13 +122,20 @@ public class FlowerManager : MonoBehaviour
             RenderSettings.skybox.SetFloat("_Blend", Mathf.Lerp(start, 0, t));
             yield return null;
         }
+        foreach (var f in frogs)
+            f.gameObject.SetActive(true);
     }
 
-    public void Die()
+    public void Die(bool immediate = false)
     {
         if (!running) return;
         running = false;
         GetComponent<CameraFollow>().enabled = false;
+        if (immediate)
+        {
+            StartCoroutine(DieNow());
+            return;
+        }
         StartCoroutine(DieTween());
     }
 
@@ -134,6 +146,14 @@ public class FlowerManager : MonoBehaviour
     public GameObject endScreen;
 
     public bool testing;
+
+    IEnumerator DieNow()
+    {
+        black.gameObject.SetActive(true);
+        black.color = Color.black;
+        yield return new WaitForSeconds(wait);
+        SceneManager.LoadScene("ButterflyScene");
+    }
 
     IEnumerator DieTween()
     {
@@ -155,6 +175,8 @@ public class FlowerManager : MonoBehaviour
 
     IEnumerator ToEnd()
     {
+        foreach (var f in frogs)
+            f.enabled = false;
         yield return new WaitForSeconds(wait);
 
         float timer = 0;
