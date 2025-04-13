@@ -24,6 +24,7 @@ public class Flower : MonoBehaviour
         {
             OnPollinated.Invoke();
             collected = true;
+            SoundManager.instance.GetFlower();
             StartCoroutine(Tween());
         }
     }

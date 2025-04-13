@@ -10,6 +10,7 @@ public class Water : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
+            SoundManager.instance.Water();
             Camera.main.GetComponent<FlowerManager>().Die();
         }
     }

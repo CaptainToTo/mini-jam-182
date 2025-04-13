@@ -112,6 +112,8 @@ public class FlowerManager : MonoBehaviour
 
     IEnumerator ToNight3()
     {
+        SoundManager.instance.ToNight(time);
+
         float timer = 0;
         float start = RenderSettings.skybox.GetFloat("_Blend");
         while (timer < time)
@@ -178,6 +180,8 @@ public class FlowerManager : MonoBehaviour
         foreach (var f in frogs)
             f.enabled = false;
         yield return new WaitForSeconds(wait);
+
+        SoundManager.instance.ToDay(fade);
 
         float timer = 0;
         black.gameObject.SetActive(true);

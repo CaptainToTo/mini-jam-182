@@ -29,6 +29,8 @@ public class Butterfly : MonoBehaviour
                 StopCoroutine(leftFlap);
             leftFlap = StartCoroutine(WingFlap(leftWing));
 
+            SoundManager.instance.Flap();
+
             if (isCaptured)
             {
                 captured--;
@@ -48,6 +50,8 @@ public class Butterfly : MonoBehaviour
             if (rightFlap != null)
                 StopCoroutine(rightFlap);
             rightFlap = StartCoroutine(WingFlap(rightWing));
+
+            SoundManager.instance.Flap();
 
             if (isCaptured)
             {

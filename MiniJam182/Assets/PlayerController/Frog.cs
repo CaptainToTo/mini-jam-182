@@ -131,6 +131,8 @@ public class Frog : MonoBehaviour
         var lowerJawRot = Quaternion.Euler(new Vector3(lowerJawAngle, lowerJaw.localEulerAngles.y, lowerJaw.localEulerAngles.z));
         var lowerJawStart = Quaternion.Euler(new Vector3(lowerJawOrigin, lowerJaw.localEulerAngles.y, lowerJaw.localEulerAngles.z));
 
+        SoundManager.instance.Tongue();
+
         while (jawTimer < jawTween)
         {
             jawTimer += Time.deltaTime;
@@ -165,6 +167,7 @@ public class Frog : MonoBehaviour
             returnPos = new Vector3(mouth.position.x, mouth.position.y, target.z);
             returnSpeed = pullSpeed;
             isCaught = true;
+            SoundManager.instance.Caught();
             player.Capture(this);
         }
 
@@ -193,6 +196,7 @@ public class Frog : MonoBehaviour
 
         if (isCaught)
         {
+            SoundManager.instance.Eaten();
             Camera.main.GetComponent<FlowerManager>().Die(true);
         }
 
@@ -211,6 +215,7 @@ public class Frog : MonoBehaviour
 
     public void Escaped()
     {
+        SoundManager.instance.Release();
         escaped = true;
     }
 }
